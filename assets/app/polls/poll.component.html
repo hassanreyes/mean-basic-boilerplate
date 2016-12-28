@@ -1,0 +1,52 @@
+<div class="backdrop" [ngStyle]="{'display': display}"></div>
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display': display}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-label="Close" (click)="onClose()"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{{ error?.title }}</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure to delete this Poll?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" (click)="onClose()" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-danger" (click)="onAceptDelete()">Yes, Delete!</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="well">
+    <div class="row">
+        <div class="col col-lg-5 col-md-5 col-sm-12">
+            <h3>{{poll?.title}}</h3>
+            <label for="choice">I'like to vote for:</label>
+            <dropdown id="choice" [values]="choices" [selected]="selectedChoice" (select)="selectChoice(choice.selected)" [placeHolder]="'Select an option...'" #choice></dropdown>
+            <br/>
+            <span *ngIf="isCustomChoice">
+                <label for="customchoice">Custom Choice:</label>
+                <input type="text" id="customchoice" class="form-control" [value]="customValue" #custom>
+                <br/>
+            </span>
+            <button class="btn btn-default {{isVotable(choice.selected)}}" *ngIf="!isCustomChoice" (click)="vote(choice.selected)">Vote</button>
+            <button class="btn btn-default" *ngIf="isCustomChoice" (click)="voteCustom()">Vote Custom</button>
+            <button class="btn btn-denger" *ngIf="poll?.userId === getUserId()" (click)="delete(poll.id)">Delete</button>
+            <hr/>
+            <button class="btn btn-primary" ceiboShare [twitter]="{url:repoUrl, text:poll?.title, hashtags:'angular2, fcc, mean, voting, poll'}">Share on Twitter</button>
+        </div>
+        <div class="col col-lg-7 col-md-7 col-sm-12">
+            <div class="row">
+                <div class="col col-lg-7 col-md-7 col-sm-12">
+                    <canvas width="400" height="300"></canvas>
+                </div>
+                <div class="col col-lg-5 col-md-5 col-sm-12">
+                    <ul class="list-group">
+                        <li class="list-group-item" *ngFor="let c of poll?.choices; let i = index" [style]="getColor(i)">{{c.name}}<span class="badge">{{c.votes}}</span></li>
+                    </ul>
+                </div>    
+            </div>
+        </div>
+    </div>
+</div>
+
