@@ -11,7 +11,8 @@ var pollRoutes =require("./routes/polls");
 var userRoutes = require('./routes/user');
 
 var app = express();
-mongoose.connect('localhost:27017/voating');
+var dbUrl = process.env.MONGODB_URI || "mongodb://localhost:27017/voating";
+mongoose.connect(dbUrl);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
