@@ -1,1 +1,1 @@
-web: npm run build:prod && node ./bin/www
+web: del public/js/app && webpack --config webpack.config.dev.js --progress --profile && node ./bin/www
